@@ -36,9 +36,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List trendingMovies = [];
-  String apikeyb = 'dc40ae824bb7df91fbdbb520e8214268';
+  String apikeyb = 'api key';
   String accesstoken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzQwYWU4MjRiYjdkZjkxZmJkYmI1MjBlODIxNDI2OCIsInN1YiI6IjY0MGU3OWY3MzIzZWJhMDBlZjYxZjcwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.a_hxUkMzCPzqBlY_wKJJsY-L-NSqzid3WpyebcYFhvY';
+      'accesstoken frmo tmdb' ;
   Map maptrending = Map<dynamic, dynamic>();
   Map tvTrending = Map<dynamic,dynamic>();
 
