@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:movie_ui/popular_people.dart';
 import 'package:movie_ui/top_tv.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -36,21 +37,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List trendingMovies = [];
-  String apikeyb = 'dc40ae824bb7df91fbdbb520e8214268';
-  String accesstoken =
-      'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYzQwYWU4MjRiYjdkZjkxZmJkYmI1MjBlODIxNDI2OCIsInN1YiI6IjY0MGU3OWY3MzIzZWJhMDBlZjYxZjcwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.a_hxUkMzCPzqBlY_wKJJsY-L-NSqzid3WpyebcYFhvY';
+  String apikeyb = 'apikey';
+  String accesstoken = 'accesstoken';
   Map maptrending = Map<dynamic, dynamic>();
   Map tvTrending = Map<dynamic,dynamic>();
+  Map people = Map<dynamic,dynamic>();
 
   Future loadmovies() async {
     TMDB tmdbwithcustomlogs = TMDB(ApiKeys(apikeyb, accesstoken),
         logConfig: ConfigLogger(showLogs: true, showErrorLogs: true));
     Map trendingmoveis = await tmdbwithcustomlogs.v3.trending.getTrending();
     Map topTv = await tmdbwithcustomlogs.v3.tv.getTopRated();
-    print('tagtrending');
+    Map peoplePopular = await tmdbwithcustomlogs.v3.people.getPopular();
+    //print('tagtrending');
     //print(trendingmoveis);
-    print(topTv);
+    print(peoplePopular);
     setState(() {
+      people = peoplePopular;
       tvTrending = topTv;
       maptrending = trendingmoveis;
     });
@@ -70,13 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
             backgroundColor: Colors.black,
             elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(12),bottomLeft: Radius.circular(12)),
+            ),
             leading: Icon(
               Icons.density_medium,
               color: Colors.red,
             ),
             title: Text(
               'movie UI',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.red , letterSpacing: 1.2),
             )),
         body:
             //maptrending.values.elementAt(1)[0]['poster_path'].toString()
@@ -121,7 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 50)
+                    SizedBox(height: 50),
+                    Headline("Popular", "People"),
+                    PopularPeople(people)
                   ],
                 ),
               ),
