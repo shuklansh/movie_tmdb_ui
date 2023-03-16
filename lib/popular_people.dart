@@ -11,7 +11,7 @@ class PopularPeople extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200,
-      child: ListView.builder (
+      child: people.values.length!=0? ListView.builder (
         scrollDirection: Axis.horizontal,
         itemCount: people['results'].length,
         itemBuilder: (BuildContext context, int index) {
@@ -46,7 +46,13 @@ class PopularPeople extends StatelessWidget {
               ],
             ),
           );},
-      ),
+      ) :  Container(
+          width: double.infinity,
+          child: Center(
+            child: Expanded(child: Text("fetching data.." , style: TextStyle(
+                color: Colors.red
+            ),)),
+          )),
     );
   }
 }

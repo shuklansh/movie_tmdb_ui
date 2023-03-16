@@ -52,7 +52,6 @@ class _DetailedScreenState extends State<DetailedScreen> {
       response = responsee.body;
       castList = json.decode(castresposne.body)['cast'];
       linkTail = json.decode(responsee.body)["results"][0]["key"].toString();
-
       controller = YoutubePlayerController(
           initialVideoId: linkTail,
           flags: YoutubePlayerFlags(
@@ -63,6 +62,7 @@ class _DetailedScreenState extends State<DetailedScreen> {
             mute: false,
           )
       );
+
     });
 
   }
@@ -105,12 +105,13 @@ class _DetailedScreenState extends State<DetailedScreen> {
                       child:
                       YoutubePlayer(
                         controller: controller,
-                        showVideoProgressIndicator: false,)),
+                        showVideoProgressIndicator: false,)
+                   ),
                   ),
                 ),
 
                 SizedBox(height: 20),
-                Headline(nameseries as String,''),
+                Headline("",nameseries as String),
                 SizedBox(height: 30),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
