@@ -1,54 +1,57 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'package:movie_ui/cast_scroll.dart';
 import 'package:movie_ui/headline.dart';
+import 'package:movie_ui/popular_people.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
+import './cast_scroll.dart';
 
 
 class DetailedScreen extends StatefulWidget {
   //const DetailedScreen({Key? key}) : super(key: key);
 
   int id;
+  String accesstk;
   String name;
   String imgthumblink;
   String apikey;
-  DetailedScreen(this.id,this.name,this.imgthumblink,this.apikey);
-
+  DetailedScreen(this.id,this.name,this.imgthumblink,this.apikey,this.accesstk);
   @override
-  State<DetailedScreen> createState() => _DetailedScreenState(this.id,this.name,this.imgthumblink,this.apikey);
+  State<DetailedScreen> createState() => _DetailedScreenState(this.id,this.name,this.imgthumblink,this.apikey,this.accesstk);
 }
 
 class _DetailedScreenState extends State<DetailedScreen> {
-  int title;
+  int id;
+  String accesstk;
   String nameseries;
   String thumb;
   String apikey;
-  _DetailedScreenState(this.title,this.nameseries,this.thumb,this.apikey);
+  _DetailedScreenState(this.id,this.nameseries,this.thumb,this.apikey,this.accesstk);
 
-  //late VideoPlayerController controller;
   late YoutubePlayerController controller;
 
   String linkTail = "";
-  //String YTlink='';
   String response = '';
-  Map YTlink= Map<dynamic,dynamic>();
-  //String linkresponse='';
+  List<dynamic> castList =[];
 
   Future getYTtail() async{
     http.Response responsee;
-    String url = "http://api.themoviedb.org/3/tv/$title/videos?api_key=$apikey";
+    http.Response castresposne;
+
+    String url = "http://api.themoviedb.org/3/tv/$id/videos?api_key=$apikey";
+    String urlforcast = "https://api.themoviedb.org/3/tv/$id/credits?api_key=$apikey&language=en-US";
+
     responsee = await http.get(Uri.parse(url));
+    castresposne = await http.get(Uri.parse(urlforcast));
 
     setState(() {
       response = responsee.body;
+      castList = json.decode(castresposne.body)['cast'];
       linkTail = json.decode(responsee.body)["results"][0]["key"].toString();
-
-      // controller = VideoPlayerController.network("https://www.youtube.com/watch?v=$linkTail")
-      //   ..initialize().then((_) {
-      //     setState(() {});
-      //   });
 
       controller = YoutubePlayerController(
           initialVideoId: linkTail,
@@ -59,18 +62,10 @@ class _DetailedScreenState extends State<DetailedScreen> {
             autoPlay: false,
             mute: false,
           )
-        // flags: YoutubePlayerFlags(
-        //   autoPlay: false,
-        //   mute: false,
-        //   forceHD: false,
-        // ),
       );
-      print(response);
-      print(linkTail);
     });
 
   }
-
 
   @override
   void initState() {
@@ -113,17 +108,7 @@ class _DetailedScreenState extends State<DetailedScreen> {
                         showVideoProgressIndicator: false,)),
                   ),
                 ),
-                    // thumbnail: Container(
-                    //   width: double.infinity,
-                    // height: double.infinity,
-                    // decoration: BoxDecoration(
-                    //   image: DecorationImage(
-                    //     fit: BoxFit.cover,
-                    //     image: NetworkImage("https://www.themoviedb.org/t/p/original"+thumb)
-                    //   )
-                    // ),
-                  //   ),
-                  // ),),
+
                 SizedBox(height: 20),
                 Headline(nameseries as String,''),
                 SizedBox(height: 30),
@@ -134,24 +119,35 @@ class _DetailedScreenState extends State<DetailedScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.w500
                   ),),
-                )
-                //Text(json.decode(response)["results"][0]["key"].toString())
+                ),
+                SizedBox(height: 20,),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Text("CAST" , style: TextStyle(
+                    color: Colors.red,
+                    letterSpacing: 3,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800
+                  ),),
+                ),
+                CastScroll(castList),
+                //Text(castList.toString(),style: TextStyle(color: Colors.amber),)
               ],
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            setState(() {
-              if(controller.value.isPlaying == true){
-                controller.pause();
-              }else{
-                controller.play();
-              }
-            });
-          },
-          child: Icon(controller.value.isPlaying? Icons.play_arrow :Icons.pause),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: (){
+        //     setState(() {
+        //       if(controller.value.isPlaying == true){
+        //         controller.pause();
+        //       }else{
+        //         controller.play();
+        //       }
+        //     });
+        //   },
+        //   child: Icon(controller.value.isPlaying? Icons.play_arrow :Icons.pause),
+        // ),
       ),
     );
   }

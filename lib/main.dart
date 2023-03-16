@@ -37,11 +37,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List trendingMovies = [];
-  String apikeyb = 'YOURAPIKEY';
-  String accesstoken = 'ACCESSTOKEN';
+  String apikeyb = 'YOUR API KEY';
+  String accesstoken = 'YOUR ACCESS TOKEN';
   Map maptrending = Map<dynamic, dynamic>();
   Map tvTrending = Map<dynamic,dynamic>();
   Map people = Map<dynamic,dynamic>();
+  Map cast = Map<dynamic,dynamic>();
 
   Future loadmovies() async {
     TMDB tmdbwithcustomlogs = TMDB(ApiKeys(apikeyb, accesstoken),
@@ -49,9 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Map trendingmoveis = await tmdbwithcustomlogs.v3.trending.getTrending();
     Map topTv = await tmdbwithcustomlogs.v3.tv.getTopRated();
     Map peoplePopular = await tmdbwithcustomlogs.v3.people.getPopular();
+
     //print('tagtrending');
     //print(trendingmoveis);
-    print(peoplePopular);
+    //print(peoplePopular);
+    //print(topTv);
     setState(() {
       people = peoplePopular;
       tvTrending = topTv;
@@ -121,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: TopTv(tvTrending,apikeyb),
+                              child: TopTv(tvTrending,apikeyb,accesstoken),
                             )
                           )
                         ],

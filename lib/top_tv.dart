@@ -6,7 +6,10 @@ class TopTv extends StatelessWidget {
 
   Map<dynamic, dynamic> tvTrending;
   String apikey;
-  TopTv(this.tvTrending,this.apikey);
+  String accesstk;
+  TopTv(this.tvTrending,this.apikey,this.accesstk);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,8 @@ class TopTv extends StatelessWidget {
                           tvTrending.values.elementAt(1)[index]['name'],
                           tvTrending.values.elementAt(1)[index]
                               ['overview'],
-                        apikey
+                        apikey,
+                        accesstk
                       )));
                 },
                 child: Container(
