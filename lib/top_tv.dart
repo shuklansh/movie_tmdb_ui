@@ -20,6 +20,7 @@ class TopTv extends StatelessWidget {
           ? ListView.builder(
               itemCount: tvTrending.values.elementAt(1).length,
               scrollDirection: Axis.horizontal,
+              physics: BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
@@ -52,9 +53,16 @@ class TopTv extends StatelessWidget {
           : Container(
           width: double.infinity,
           child: Center(
-            child: Expanded(child: Text("fetching data.." , style: TextStyle(
-              color: Colors.red
-            ),)),
+            child: Expanded(child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Text("fetching data.." , style: TextStyle(
+                  color: Colors.red
+              ),),
+                SizedBox(width: 10),
+                CircularProgressIndicator(
+                  color: Colors.red,
+                )],
+            )),
           )),
     );
   }

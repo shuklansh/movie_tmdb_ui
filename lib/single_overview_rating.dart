@@ -9,6 +9,7 @@ class SingleOvRt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return maptrending.values.length!=0? ListView.builder(
+      physics: BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
         return Row(
@@ -156,9 +157,16 @@ class SingleOvRt extends StatelessWidget {
     ) :  Container(
         width: double.infinity,
         child: Center(
-          child: Expanded(child: Text("fetching data.." , style: TextStyle(
-              color: Colors.red
-          ),)),
+          child: Expanded(child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text("fetching data.." , style: TextStyle(
+                color: Colors.red
+            ),),
+              SizedBox(width: 10),
+              CircularProgressIndicator(
+                color: Colors.red,
+              )],
+          )),
         ));
   }
 }

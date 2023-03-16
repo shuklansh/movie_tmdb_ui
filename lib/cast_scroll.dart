@@ -12,6 +12,7 @@ class CastScroll extends StatelessWidget {
     return Container(
       height: 200,
       child: ListView.builder (
+        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: people.length,
         itemBuilder: (BuildContext context, int index) {

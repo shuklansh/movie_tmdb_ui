@@ -37,6 +37,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List trendingMovies = [];
+
   String apikeyb = '..Api key..';
   String accesstoken = "..Access token..";
   Map maptrending = Map<dynamic, dynamic>();
