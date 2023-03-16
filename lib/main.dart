@@ -37,8 +37,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List trendingMovies = [];
-  String apikeyb = 'apikey';
-  String accesstoken = 'acc token';
+  String apikeyb = 'YOURAPIKEY';
+  String accesstoken = 'ACCESSTOKEN';
   Map maptrending = Map<dynamic, dynamic>();
   Map tvTrending = Map<dynamic,dynamic>();
   Map people = Map<dynamic,dynamic>();
@@ -121,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
-                              child: TopTv(tvTrending),
+                              child: TopTv(tvTrending,apikeyb),
                             )
                           )
                         ],
